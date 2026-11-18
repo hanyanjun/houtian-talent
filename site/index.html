@@ -41,9 +41,8 @@ button{cursor:pointer}
 .stat.t b{color:var(--gold-2)} .stat.f b{color:var(--fan)} .stat.l b{color:var(--liang)} .stat.y b{color:var(--you)}
 
 /* ── 吸顶：搜索栏 + 属性标签（下滑隐藏、上滑出现） ── */
-.sticky{position:sticky;top:0;z-index:20;margin:0 -16px;padding:8px 16px 6px;
-  background:linear-gradient(var(--bg) 88%,rgba(16,20,31,0));transition:transform .22s ease}
-.sticky.hide{transform:translateY(-105%)}
+.sticky{position:sticky;top:0;z-index:20;margin:0 -16px;padding:8px 16px 8px;
+  background:linear-gradient(var(--bg) 92%,rgba(16,20,31,0));border-bottom:1px solid transparent}
 .bar{display:flex;gap:8px;align-items:center}
 .search{position:relative;flex:1;min-width:0}
 .search input{width:100%;height:40px;border-radius:10px;border:1px solid var(--line);
@@ -66,6 +65,9 @@ button{cursor:pointer}
   color:var(--txt-3);font-size:13px;white-space:nowrap}
 .chip.on{color:var(--gold-2);border-color:rgba(217,180,91,.6);background:linear-gradient(180deg,#2A3145,#232A3E)}
 .chip .c{font-variant-numeric:tabular-nums;opacity:.7;margin-left:4px;font-size:12px}
+.gchips{margin-top:6px}
+.gchips .chip{height:28px;padding:0 11px;border-radius:8px;font-size:13px;background:rgba(26,32,48,.6);color:var(--txt-2)}
+.gchips .chip.on{color:var(--gold-2);border-color:rgba(217,180,91,.6);background:rgba(217,180,91,.12)}
 .panel{display:none;margin-top:8px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:rgba(26,32,48,.96)}
 .panel.show{display:block}
 .panel h4{font-size:12px;font-weight:600;color:var(--txt-2);letter-spacing:.15em;margin-bottom:8px}
@@ -86,7 +88,7 @@ button{cursor:pointer}
 .sec-sub{display:flex;align-items:center;font-size:13px;color:var(--txt-2);margin:2px 0 8px}
 .sec-sub .lnk{flex:none}
 
-.group{margin-bottom:8px;border:1px solid rgba(255,255,255,.07);border-radius:12px;background:rgba(26,32,48,.55);overflow:hidden}
+.group{scroll-margin-top:calc(var(--sh,150px) + 8px);margin-bottom:8px;border:1px solid rgba(255,255,255,.07);border-radius:12px;background:rgba(26,32,48,.55);overflow:hidden}
 .g-head{width:100%;display:flex;align-items:center;gap:10px;padding:9px 12px;border:0;background:none;text-align:left;min-height:50px}
 .g-icon{width:32px;height:32px;border-radius:50%;flex:none;display:grid;place-items:center;
   font-size:16px;font-weight:700;color:var(--gold-2);
@@ -181,6 +183,7 @@ mark{background:rgba(217,180,91,.28);color:#fff;border-radius:3px;padding:0 1px}
       </button>
     </div>
     <div class="chips" id="tags"></div>
+    <div class="chips gchips" id="gchips" aria-label="分类快捷跳转"></div>
     <div class="panel" id="panel">
       <h4>品阶</h4>
       <div class="chips" id="qchips"></div>
@@ -308,7 +311,13 @@ function buildControls(){
   $('bView').setAttribute('aria-label', state.view==='list'?'切换为卡片视图':'切换为列表视图');
   $('tabbar').innerHTML = D.sections.map((s,i)=>`<button type="button" class="${i===state.tab&&!isFilter()?'on':''}" data-t="${i}"><i>${TAB[i][0]}</i>${TAB[i][1]}</button>`).join('');
 }
-const refresh = () => { buildControls(); build(); };
+function buildGChips(){
+  const gs=[...document.querySelectorAll('#main .group')], box=$('gchips');
+  box.innerHTML = gs.map(g=>`<button class="chip" type="button" data-k="${esc(g.dataset.k)}">${esc(g.querySelector('.g-head b').textContent)}</button>`).join('');
+  box.style.display = gs.length?'':'none';
+  curKey=''; spy();
+}
+const refresh = () => { buildControls(); build(); buildGChips(); updateSH(); };
 const saveFav = () => store.set('ht-fav',[...state.fav]);
 
 // 头部与脚注
@@ -330,7 +339,7 @@ $('qchips').onclick=e=>{ const b=e.target.closest('.chip'); if(!b) return; state
 function clearAll(){ state.q='';state.tag='';state.quality='';state.favOnly=false; $('q').value=''; $('searchBox').classList.remove('has'); }
 $('tip').onclick=e=>{ if(e.target.closest('[data-act=clear]')){ clearAll(); refresh(); } };
 $('tabbar').onclick=e=>{ const b=e.target.closest('button'); if(!b) return;
-  clearAll(); state.tab=+b.dataset.t; state.panel=false; refresh(); scrollTo(0,0); $('sticky').classList.remove('hide'); };
+  clearAll(); state.tab=+b.dataset.t; state.panel=false; refresh(); scrollTo(0,0); };
 $('main').onclick=e=>{
   const st=e.target.closest('.star');
   if(st){ const n=st.dataset.fav; state.fav.has(n)?state.fav.delete(n):state.fav.add(n); saveFav();
@@ -348,16 +357,29 @@ $('main').onclick=e=>{
     if(tb) tb.textContent=D.sections[state.tab].groups.every(x=>state.open.has(state.tab+'|'+gShort(x.name)))?'全部折叠':'全部展开'; }
 };
 
-// 下滑隐藏吸顶栏，上滑再出现；输入或筛选面板打开时保持显示
-const tt=$('totop'), sticky=$('sticky'); let lastY=0;
+// 吸顶栏始终固定；量出它的高度，让跳转后的分组不被遮住
+const tt=$('totop'), sticky=$('sticky'); let curKey='', ticking=false;
+function updateSH(){ document.documentElement.style.setProperty('--sh', sticky.offsetHeight+'px'); }
+if(window.ResizeObserver) new ResizeObserver(updateSH).observe(sticky); else addEventListener('resize',updateSH);
+// 滚动时高亮当前所在分组对应的快捷按钮
+function spy(){
+  const line=sticky.offsetHeight+16; let cur=null;
+  for(const g of document.querySelectorAll('#main .group')){ if(g.getBoundingClientRect().top<=line) cur=g; else break; }
+  const k=cur?cur.dataset.k:''; if(k===curKey) return; curKey=k;
+  const box=$('gchips'); let on=null;
+  box.querySelectorAll('.chip').forEach(c=>{ const m=c.dataset.k===k; c.classList.toggle('on',m); if(m) on=c; });
+  if(on) box.scrollLeft = on.offsetLeft - box.clientWidth/2 + on.offsetWidth/2;
+}
 addEventListener('scroll',()=>{
-  const y=scrollY, d=y-lastY;
-  tt.classList.toggle('show',y>600);
-  if(y<80||state.panel||document.activeElement===$('q')) sticky.classList.remove('hide');
-  else if(d>8) sticky.classList.add('hide');
-  else if(d<-8) sticky.classList.remove('hide');
-  lastY=y;
+  tt.classList.toggle('show',scrollY>600);
+  if(!ticking){ ticking=true; requestAnimationFrame(()=>{ ticking=false; spy(); }); }
 },{passive:true});
+$('gchips').onclick=e=>{
+  const b=e.target.closest('.chip'); if(!b) return;
+  const g=[...document.querySelectorAll('#main .group')].find(x=>x.dataset.k===b.dataset.k); if(!g) return;
+  if(!g.classList.contains('open')){ g.classList.add('open'); g.querySelector('.g-head').setAttribute('aria-expanded',true); state.open.add(g.dataset.k); }
+  g.scrollIntoView({behavior:'smooth',block:'start'});
+};
 tt.onclick=()=>scrollTo({top:0,behavior:'smooth'});
 
 refresh();
