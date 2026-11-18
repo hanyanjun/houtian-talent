@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#10141F">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>后天天赋 · 全词条｜我要当老祖</title>
+<style>
+:root{
+  --bg:#10141F; --panel:#1A2030; --panel-2:#202739; --line:rgba(217,180,91,.22);
+  --gold:#D9B45B; --gold-2:#F0D28A; --txt:#E8E4D8; --txt-2:#8E97A8; --txt-3:#B9C0CE;
+  --fan:#8E97A8; --liang:#58C4A6; --you:#E4B54E;
+  --safe-b:env(safe-area-inset-bottom,0px);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{
+  font-family:-apple-system,"PingFang SC","HarmonyOS Sans SC","Microsoft YaHei",sans-serif;
+  background:
+    radial-gradient(ellipse 80% 24% at 50% 0,rgba(217,180,91,.08),transparent 70%),
+    var(--bg);
+  color:var(--txt); font-size:14px; line-height:1.55;
+  padding-bottom:calc(72px + var(--safe-b));
+}
+button,input{font-family:inherit}
+.page{max-width:520px;margin:0 auto;padding:0 16px}
+
+/* ── hero ── */
+.hero{padding:calc(28px + env(safe-area-inset-top,0px)) 0 14px;text-align:center}
+.hero::after{content:"";display:block;width:150px;height:1px;margin:14px auto 0;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.kicker{font-size:12px;color:var(--txt-2);letter-spacing:.5em;text-indent:.5em}
+.hero h1{font-size:30px;font-weight:800;letter-spacing:.1em;margin-top:6px;
+  background:linear-gradient(180deg,#F5E3B0,#D9B45B);-webkit-background-clip:text;background-clip:text;color:transparent}
+.ver{margin-top:8px;font-size:12px;color:var(--txt-2);font-variant-numeric:tabular-nums}
+.stat-bar{display:flex;margin-top:14px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:rgba(26,32,48,.7)}
+.stat{flex:1;padding:10px 4px;text-align:center}
+.stat+.stat{border-left:1px solid var(--line)}
+.stat b{display:block;font-size:20px;font-weight:700;font-variant-numeric:tabular-nums}
+.stat span{font-size:12px;color:var(--txt-2);letter-spacing:.2em}
+.stat.t b{color:var(--gold-2)} .stat.f b{color:var(--fan)} .stat.l b{color:var(--liang)} .stat.y b{color:var(--you)}
+
+/* ── 吸顶：搜索 + 品阶 + 分组 ── */
+.sticky{position:sticky;top:0;z-index:20;margin:0 -16px;padding:10px 16px 8px;
+  background:linear-gradient(var(--bg) 86%,rgba(16,20,31,0));}
+.search{position:relative}
+.search input{width:100%;height:42px;border-radius:10px;border:1px solid var(--line);
+  background:var(--panel);color:var(--txt);font-size:16px;padding:0 40px 0 38px;outline:none;-webkit-appearance:none;appearance:none}
+.search input::placeholder{color:var(--txt-2)}
+.search input:focus{border-color:rgba(217,180,91,.6);box-shadow:0 0 0 3px rgba(217,180,91,.12)}
+.search svg{position:absolute;left:12px;top:12px;width:18px;height:18px;stroke:var(--txt-2);fill:none;stroke-width:2;stroke-linecap:round}
+.search .clr{position:absolute;right:4px;top:4px;width:34px;height:34px;border:0;background:none;color:var(--txt-2);font-size:20px;display:none;cursor:pointer}
+.search.has .clr{display:block}
+.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:8px -16px 0;padding:0 16px}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;height:32px;padding:0 14px;border-radius:99px;border:1px solid var(--line);background:var(--panel);
+  color:var(--txt-2);font-size:13px;letter-spacing:.06em;cursor:pointer;white-space:nowrap}
+.chip.on{color:var(--gold-2);border-color:rgba(217,180,91,.55);background:linear-gradient(180deg,#2A3145,#232A3E)}
+.chip .c{font-variant-numeric:tabular-nums;opacity:.75;margin-left:4px;font-size:12px}
+.chip.q-f.on{color:var(--fan);border-color:rgba(142,151,168,.6)}
+.chip.q-l.on{color:var(--liang);border-color:rgba(88,196,166,.6)}
+.chip.q-y.on{color:var(--you);border-color:rgba(228,181,78,.6)}
+.gchips{margin-top:8px}
+.gchips .chip{height:30px;padding:0 12px;font-size:13px}
+
+/* ── 内容 ── */
+.result-tip{margin:10px 0 0;font-size:13px;color:var(--txt-2)}
+.result-tip b{color:var(--gold-2)}
+.sec{margin-top:18px}
+.sec-head{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.no{font-size:12px;color:var(--gold);letter-spacing:.15em;border:1px solid var(--line);padding:2px 8px;border-radius:99px}
+.sec-head h2{font-size:18px;font-weight:700;letter-spacing:.08em}
+.sec-head .n{margin-left:auto;font-size:13px;color:var(--txt-2);font-variant-numeric:tabular-nums}
+.sec-sub{font-size:13px;color:var(--txt-2);margin-bottom:12px}
+.group{margin-bottom:18px;scroll-margin-top:150px}
+.g-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.g-icon{width:34px;height:34px;border-radius:50%;flex:none;display:grid;place-items:center;
+  font-size:17px;font-weight:700;color:var(--gold-2);
+  background:radial-gradient(circle at 32% 28%,#2E3A54,#1A2030 70%);border:1px solid var(--line);
+  box-shadow:0 0 12px rgba(217,180,91,.10),inset 0 0 8px rgba(217,180,91,.08)}
+.g-head b{font-size:16px;letter-spacing:.06em}
+.g-head .n{margin-left:auto;font-size:13px;color:var(--txt-2);font-variant-numeric:tabular-nums}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.cards.one{grid-template-columns:1fr}
+.card{background:linear-gradient(180deg,var(--panel-2),var(--panel));border:1px solid rgba(255,255,255,.06);
+  border-radius:10px;padding:10px 12px 10px 14px;position:relative;overflow:hidden;min-width:0}
+.card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--qc);opacity:.9}
+.card.y::before{background:linear-gradient(180deg,#F0D28A,#C99B3F)}
+.card .q{font-size:12px;letter-spacing:.2em;color:var(--qc);display:flex;align-items:center;gap:6px}
+.card .nm{font-size:15px;font-weight:700;color:var(--txt);letter-spacing:.03em;margin-top:1px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.card .fx{margin-top:4px;font-size:14px;color:var(--txt-3);line-height:1.55;overflow-wrap:anywhere}
+.card .fx .cl{display:block}
+.card .fx b{color:var(--gold-2);font-weight:600;font-variant-numeric:tabular-nums}
+.card .fx i{font-style:normal;color:var(--gold);}
+mark{background:rgba(217,180,91,.28);color:#fff;border-radius:3px;padding:0 1px}
+.badge{display:inline-grid;place-items:center;min-width:22px;height:22px;padding:0 4px;border-radius:99px;font-size:12px;
+  color:var(--gold-2);border:1px solid rgba(217,180,91,.5);background:rgba(217,180,91,.1);cursor:pointer;line-height:1;font-weight:600}
+.cnote{display:none;margin-top:8px;padding:7px 9px;border-radius:7px;font-size:13px;line-height:1.5;color:var(--txt-3);
+  background:rgba(217,180,91,.08);border:1px dashed rgba(217,180,91,.35)}
+.card.open .cnote{display:block}
+.empty{text-align:center;padding:60px 0;color:var(--txt-2)}
+.empty b{display:block;font-size:16px;color:var(--txt);margin-bottom:6px}
+
+/* ── 脚注 ── */
+.notes{margin-top:26px;border-top:1px solid var(--line);padding-top:12px}
+.notes h3{font-size:14px;color:var(--gold);margin-bottom:6px;letter-spacing:.2em}
+.notes p{font-size:13px;color:var(--txt-2);margin-bottom:6px;line-height:1.65}
+
+/* ── 底部 tab bar ── */
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;justify-content:center;
+  background:rgba(13,16,25,.94);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-top:1px solid var(--line);
+  padding-bottom:var(--safe-b)}
+.tabbar .in{width:100%;max-width:520px;display:flex}
+.tabbar button{flex:1;background:none;border:0;color:var(--txt-2);font-size:12px;padding:8px 0 9px;letter-spacing:.05em;cursor:pointer}
+.tabbar button i{display:grid;place-items:center;width:28px;height:28px;margin:0 auto 2px;border-radius:8px;
+  font-style:normal;font-size:14px;font-weight:700;background:rgba(255,255,255,.05)}
+.tabbar button.on{color:var(--gold-2)}
+.tabbar button.on i{background:linear-gradient(180deg,rgba(217,180,91,.28),rgba(217,180,91,.12));box-shadow:inset 0 0 0 1px rgba(217,180,91,.4)}
+.totop{position:fixed;right:14px;bottom:calc(84px + var(--safe-b));z-index:25;width:42px;height:42px;border-radius:50%;
+  border:1px solid var(--line);background:rgba(26,32,48,.92);color:var(--gold-2);font-size:18px;display:none;cursor:pointer}
+.totop.show{display:block}
+@media (min-width:521px){body{padding-bottom:84px}}
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="hero">
+    <div class="kicker">我要当老祖 · 先遣服图鉴</div>
+    <h1>后天天赋 · 全词条</h1>
+    <div class="ver" id="ver"></div>
+    <div class="stat-bar" id="stats"></div>
+  </header>
+
+  <div class="sticky">
+    <label class="search" id="searchBox">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <input id="q" type="search" inputmode="search" enterkeyhint="search" autocomplete="off" placeholder="搜词条名或效果，如：汲取 穿甲 剑" aria-label="搜索词条">
+      <button class="clr" id="clr" type="button" aria-label="清除">×</button>
+    </label>
+    <div class="chips" id="qchips"></div>
+    <div class="chips gchips" id="gchips"></div>
+  </div>
+
+  <div class="result-tip" id="tip"></div>
+  <main id="main"></main>
+
+  <footer class="notes" id="notes"></footer>
+</div>
+
+<nav class="tabbar"><div class="in" id="tabbar"></div></nav>
+<button class="totop" id="totop" type="button" aria-label="回到顶部">↑</button>
+
+<script>
+const D = {"meta":{"game":"我要当老祖","book":"先遣服图鉴","title":"后天天赋 · 全词条","total":193,"counts":{"凡品":35,"良品":67,"优品":91},"version":"2610302002","notes":["收录：凡品 35 条 / 良品 67 条 / 优品 91 条，图鉴及以上历阶可获得；重生可额外消耗重生丹保留，最多 4 个。","① 19 条「双绝」：文案为双防生命各 +7.5%，原始参数为各 +5%。","② 标记的 6 条词条：文案写「汲取率」，原始参数使用「汲取」字段，两者名称不一致。","③ 焚锋疾异：文案写连击增伤 +10%，原始参数为攻击力 +10%。","本图保留资源原文，并标注已确认的配置差异；数据来自先遣服 2610302002，未实装验证。"]},"sections":[{"id":"element","no":"01","title":"元素专属","count":56,"subtitle":"金、木、水、火、土、雷、邪、体：每系 7 条","groups":[{"name":"金系","entries":[{"name":"五金店员","effect":"金系增伤+1%，木系抵抗+1%","note":"","quality":"凡品"},{"name":"锐锋骨","effect":"忽视闪避+2%，暴击增伤+2%","note":"","quality":"良品"},{"name":"金刑骨","effect":"穿甲+3%，法宝增伤+3%","note":"","quality":"良品"},{"name":"金道基","effect":"全系增伤+2%，木系抵抗+2%","note":"","quality":"良品"},{"name":"锐金法身","effect":"忽视闪避+4%，暴击增伤+4%","note":"","quality":"优品"},{"name":"监兵法身","effect":"穿甲+6%，法宝增伤+6%","note":"","quality":"优品"},{"name":"庚金道体","effect":"金系增伤+4%，火系抵抗+4%","note":"","quality":"优品"}]},{"name":"木系","entries":[{"name":"乡野人家","effect":"木系增伤+1%，土系抵抗+1%","note":"","quality":"凡品"},{"name":"长生骨","effect":"忽视击晕+2%，治疗效果+2%","note":"","quality":"良品"},{"name":"毒藤骨","effect":"毒增伤+3%，法宝减伤+3%","note":"","quality":"良品"},{"name":"木道基","effect":"水系增伤+2%，土系抵抗+2%","note":"","quality":"良品"},{"name":"青冥法身","effect":"忽视击晕+4%，治疗效果+4%","note":"","quality":"优品"},{"name":"森罗法身","effect":"毒增伤+6%，法宝减伤+6%","note":"","quality":"优品"},{"name":"甲木道体","effect":"水系增伤+4%，土系抵抗+4%","note":"","quality":"优品"}]},{"name":"水系","entries":[{"name":"流里白条","effect":"水系增伤+1%，火系抵抗+1%","note":"","quality":"凡品"},{"name":"流波骨","effect":"忽视连击+2%，反击增伤+2%","note":"","quality":"良品"},{"name":"沦渊骨","effect":"护盾效果+4%，普攻减伤+3%","note":"","quality":"良品"},{"name":"水道基","effect":"水系增伤+2%，火系抵抗+2%","note":"","quality":"良品"},{"name":"壬水法身","effect":"忽视连击+4%，反击增伤+4%","note":"","quality":"优品"},{"name":"玄冥法身","effect":"护盾效果+8%，普攻减伤+6%","note":"","quality":"优品"},{"name":"沧溟道体","effect":"水系增伤+4%，火系抵抗+4%","note":"","quality":"优品"}]},{"name":"火系","entries":[{"name":"鬼火少年","effect":"火系增伤+1%，金系抵抗+1%","note":"","quality":"凡品"},{"name":"焚心骨","effect":"忽视暴击+2%，连击增伤+2%","note":"","quality":"良品"},{"name":"烬灭骨","effect":"灼烧增伤+3%，普攻增伤+3%","note":"","quality":"良品"},{"name":"火道基","effect":"火系增伤+2%，金系抵抗+2%","note":"","quality":"良品"},{"name":"红莲法身","effect":"忽视暴击+4%，连击增伤+4%","note":"","quality":"优品"},{"name":"赤帝法身","effect":"灼烧增伤+6%，普攻增伤+6%","note":"","quality":"优品"},{"name":"丙火道体","effect":"火系增伤+4%，金系抵抗+4%","note":"","quality":"优品"}]},{"name":"土系","entries":[{"name":"泥地打滚","effect":"土系增伤+1%，水系抵抗+1%","note":"","quality":"凡品"},{"name":"戊土骨","effect":"忽视反击+2%，暴击增伤+2%","note":"","quality":"良品"},{"name":"磐石骨","effect":"破盾强化+4%，法宝增伤+3%","note":"","quality":"良品"},{"name":"土道基","effect":"土系增伤+2%，水系抵抗+2%","note":"","quality":"良品"},{"name":"镇岳法身","effect":"忽视反击+4%，暴击增伤+4%","note":"","quality":"优品"},{"name":"庚辰法身","effect":"破盾强化+8%，法宝增伤+6%","note":"","quality":"优品"},{"name":"坤元道体","effect":"土系增伤+4%，水系抵抗+4%","note":"","quality":"优品"}]},{"name":"雷系","entries":[{"name":"见习雷工","effect":"雷系增伤+1%，邪系抵抗+1%","note":"","quality":"凡品"},{"name":"阳雷骨","effect":"穿甲抵抗+2%，怒气技增伤+8%","note":"","quality":"良品"},{"name":"阴雷骨","effect":"汲取率+2%，法宝增伤+3%","note":"②","quality":"良品"},{"name":"雷道基","effect":"雷系增伤+2%，邪系抵抗+2%","note":"","quality":"良品"},{"name":"霹雳法身","effect":"穿甲抵抗+4%，怒气技增伤+16%","note":"","quality":"优品"},{"name":"景震法身","effect":"汲取率+4%，法宝增伤+6%","note":"","quality":"优品"},{"name":"雷殛道体","effect":"雷系增伤+4%，邪系抵抗+4%","note":"","quality":"优品"}]},{"name":"邪系","entries":[{"name":"反派路人","effect":"邪系增伤+1%，体系抵抗+1%","note":"","quality":"凡品"},{"name":"摄魂骨","effect":"穿甲+2%，汲取率+2%","note":"②","quality":"良品"},{"name":"血煞骨","effect":"暴击+2%，法宝增伤+2%","note":"","quality":"良品"},{"name":"邪道基","effect":"邪系增伤+2%，体系抵抗+2%","note":"","quality":"良品"},{"name":"噬魂法身","effect":"穿甲+4%，汲取率+4%","note":"","quality":"优品"},{"name":"幽冥法身","effect":"暴击+4%，法宝增伤+4%","note":"","quality":"优品"},{"name":"血罗道体","effect":"邪系增伤+4%，体系抵抗+4%","note":"","quality":"优品"}]},{"name":"体系","entries":[{"name":"体育委员","effect":"体系增伤+1%，雷系抵抗+1%","note":"","quality":"凡品"},{"name":"天行骨","effect":"治疗效果+2%，护盾效果+4%","note":"","quality":"良品"},{"name":"怒罡骨","effect":"法宝增伤+2%，怒气技减伤+8%","note":"","quality":"良品"},{"name":"体道基","effect":"体系增伤+2%，雷系抵抗+2%","note":"","quality":"良品"},{"name":"琉璃法身","effect":"治疗效果+4%，护盾效果+8%","note":"","quality":"优品"},{"name":"明王法身","effect":"法宝增伤+4%，怒气技减伤+16%","note":"","quality":"优品"},{"name":"乾元道体","effect":"体系增伤+4%，雷系抵抗+4%","note":"","quality":"优品"}]}]},{"id":"weapon","no":"02","title":"单武器形态","count":56,"subtitle":"剑、乐、异、御、枪、刀、锤、幡：每种形态 7 条","groups":[{"name":"剑形态","entries":[{"name":"剑窍","effect":"剑形态法宝攻击+5%，生命+5%","note":"","quality":"凡品"},{"name":"剑道骨","effect":"剑形态法宝攻击、防御、生命各+7.5%","note":"","quality":"良品"},{"name":"白虹剑胎","effect":"剑形态法宝破甲+3%，增伤+3%","note":"","quality":"良品"},{"name":"青萝剑胎","effect":"剑形态法宝治疗效果+3%，增伤+3%","note":"","quality":"良品"},{"name":"剑心通明","effect":"剑形态法宝攻击、防御、生命各+10%","note":"","quality":"优品"},{"name":"剑意无双","effect":"剑形态法宝穿甲+6%，增伤+6%","note":"","quality":"优品"},{"name":"剑道灵种","effect":"剑形态法宝治疗效果+6%，增伤+6%","note":"","quality":"优品"}]},{"name":"乐形态","entries":[{"name":"乐窍","effect":"乐形态法宝攻击+5%，生命+5%","note":"","quality":"凡品"},{"name":"乐道骨","effect":"乐形态法宝攻击、防御、生命各+7.5%","note":"","quality":"良品"},{"name":"惊鸿乐胎","effect":"乐形态法宝攻击+7.5%，增伤+3%","note":"","quality":"良品"},{"name":"漱玉乐胎","effect":"乐形态法宝汲取率+3%，增伤+3%","note":"②","quality":"良品"},{"name":"乐心通明","effect":"乐形态法宝攻击、防御、生命各+10%","note":"","quality":"优品"},{"name":"乐意无双","effect":"乐形态法宝攻击+10%，增伤+6%","note":"","quality":"优品"},{"name":"乐道灵种","effect":"乐形态法宝汲取率+6%，增伤+6%","note":"","quality":"优品"}]},{"name":"异形态","entries":[{"name":"异窍","effect":"异形态法宝攻击+5%，生命+5%","note":"","quality":"凡品"},{"name":"异道骨","effect":"异形态法宝攻击、防御、生命各+7.5%","note":"","quality":"良品"},{"name":"千机异胎","effect":"异形态法宝生命+7.5%，增伤+3%","note":"","quality":"良品"},{"name":"衍珠异胎","effect":"异形态法宝治疗效果+3%，增伤+3%","note":"","quality":"良品"},{"name":"异心通明","effect":"异形态法宝攻击、防御、生命各+10%","note":"","quality":"优品"},{"name":"异意无双","effect":"异形态法宝生命+10%，增伤+6%","note":"","quality":"优品"},{"name":"异道灵种","effect":"异形态法宝治疗效果+6%，增伤+6%","note":"","quality":"优品"}]},{"name":"御形态","entries":[{"name":"御窍","effect":"御形态法宝防御+5%，生命+5%","note":"","quality":"凡品"},{"name":"御道骨","effect":"御形态法宝攻击、防御、生命各+7.5%","note":"","quality":"良品"},{"name":"天衣御胎","effect":"御形态法宝护盾效果+6%，防御+7.5%","note":"","quality":"良品"},{"name":"逆鳞御胎","effect":"御形态法宝护盾效果+6%，增伤+3%","note":"","quality":"良品"},{"name":"御心通明","effect":"御形态法宝攻击、防御、生命各+10%","note":"","quality":"优品"},{"name":"御意无双","effect":"御形态法宝护盾效果+12%，防御+10%","note":"","quality":"优品"},{"name":"御道灵种","effect":"御形态法宝护盾效果+12%，增伤+6%","note":"","quality":"优品"}]},{"name":"枪形态","entries":[{"name":"枪窍","effect":"枪形态法宝攻击+5%，生命+5%","note":"","quality":"凡品"},{"name":"枪道骨","effect":"枪形态法宝攻击、防御、生命各+7.5%","note":"","quality":"良品"},{"name":"霸王枪胎","effect":"枪形态法宝暴击+3%，暴击增伤+6%","note":"","quality":"良品"},{"name":"沥泉枪胎","effect":"枪形态法宝汲取率+3%，增伤+3%","note":"②","quality":"良品"},{"name":"枪心通明","effect":"枪形态法宝攻击、防御、生命各+10%","note":"","quality":"优品"},{"name":"枪意无双","effect":"枪形态法宝暴击+6%，暴击增伤+12%","note":"","quality":"优品"},{"name":"枪道灵种","effect":"枪形态法宝汲取率+6%，增伤+6%","note":"","quality":"优品"}]},{"name":"刀形态","entries":[{"name":"刀窍","effect":"刀形态法宝攻击+5%，生命+5%","note":"","quality":"凡品"},{"name":"刀道骨","effect":"刀形态法宝攻击、防御、生命各+7.5%","note":"","quality":"良品"},{"name":"龙雀刀胎","effect":"刀形态法宝攻击+7.5%，增伤+3%","note":"","quality":"良品"},{"name":"雪饮刀胎","effect":"刀形态法宝汲取率+3%，增伤+3%","note":"②","quality":"良品"},{"name":"刀心通明","effect":"刀形态法宝攻击、防御、生命各+10%","note":"","quality":"优品"},{"name":"刀意无双","effect":"刀形态法宝攻击+10%，增伤+6%","note":"","quality":"优品"},{"name":"刀道灵种","effect":"刀形态法宝汲取率+6%，增伤+6%","note":"","quality":"优品"}]},{"name":"锤形态","entries":[{"name":"锤窍","effect":"锤形态法宝攻击+5%，防御+5%","note":"","quality":"凡品"},{"name":"锤道骨","effect":"锤形态法宝攻击、防御、生命各+7.5%","note":"","quality":"良品"},{"name":"博浪锤胎","effect":"锤形态法宝攻击+7.5%，护盾效果+6%","note":"","quality":"良品"},{"name":"雷公锤胎","effect":"锤形态法宝破盾强化+6%，增伤+3%","note":"","quality":"良品"},{"name":"锤心通明","effect":"锤形态法宝攻击、防御、生命各+10%","note":"","quality":"优品"},{"name":"锤道无双","effect":"锤形态法宝攻击+10%，护盾效果+12%","note":"","quality":"优品"},{"name":"锤道灵种","effect":"锤形态法宝破盾强化+12%，增伤+6%","note":"","quality":"优品"}]},{"name":"幡形态","entries":[{"name":"幡窍","effect":"幡形态法宝攻击+5%，生命+5%","note":"","quality":"凡品"},{"name":"幡道骨","effect":"幡形态法宝攻击、防御、生命各+7.5%","note":"","quality":"良品"},{"name":"垂云幡胎","effect":"幡形态法宝生命+7.5%，增伤+3%","note":"","quality":"良品"},{"name":"招魂幡胎","effect":"幡形态法宝汲取率+3%，增伤+3%","note":"②","quality":"良品"},{"name":"幡心通明","effect":"幡形态法宝攻击、防御、生命各+10%","note":"","quality":"优品"},{"name":"幡意无双","effect":"幡形态法宝生命+10%，增伤+6%","note":"","quality":"优品"},{"name":"幡道灵种","effect":"幡形态法宝汲取率+6%，增伤+6%","note":"","quality":"优品"}]}]},{"id":"dual","no":"03","title":"双武器 · 通用进阶","count":57,"subtitle":"19 种组合 × 凡 / 良 / 优三档：效果按配置文案完整保留","groups":[{"name":"剑刀 / 【剑】【刀】攻击+3.0%，生命+3.0%","entries":[{"name":"剑刀小成","effect":"【剑】【刀】攻击+3.0%，生命+3.0%","note":"","quality":"凡品"},{"name":"剑刀双绝","effect":"【刀】【剑】形态法宝攻击、防御、生命各+7.5%","note":"①","quality":"良品"},{"name":"剑刀通神","effect":"【刀】【剑】形态法宝攻击、防御、生命各+7.5%","note":"","quality":"优品"}]},{"name":"剑枪 / 【剑】【枪】攻击+3.0%，生命+3.0%","entries":[{"name":"剑枪小成","effect":"【剑】【枪】攻击+3.0%，生命+3.0%","note":"","quality":"凡品"},{"name":"剑枪双绝","effect":"【剑】【枪】形态法宝攻击、防御、生命各+7.5%","note":"①","quality":"良品"},{"name":"剑枪通神","effect":"【剑】【枪】形态法宝攻击、防御、生命各+7.5%","note":"","quality":"优品"}]},{"name":"刀枪 / 【刀】【枪】攻击+3.0%，生命+3.0%","entries":[{"name":"刀枪小成","effect":"【刀】【枪】攻击+3.0%，生命+3.0%","note":"","quality":"凡品"},{"name":"刀枪双绝","effect":"【刀】【枪】形态法宝攻击、防御、生命各+7.5%","note":"①","quality":"良品"},{"name":"刀枪通神","effect":"【刀】【枪】形态法宝攻击、防御、生命各+7.5%","note":"","quality":"优品"}]},{"name":"剑乐 / 【剑】【乐】攻击+3.0%，生命+3.0%","entries":[{"name":"剑乐小成","effect":"【剑】【乐】攻击+3.0%，生命+3.0%","note":"","quality":"凡品"},{"name":"剑乐双绝","effect":"【剑】【乐】形态法宝攻击、防御、生命各+7.5%","note":"①","quality":"良品"},{"name":"剑乐通神","effect":"【剑】【乐】形态法宝攻击、防御、生命各+7.5%","note":"","quality":"优品"}]},{"name":"剑异 / 【剑】【异】攻击+3.0%，生命+3.0%","entries":[{"name":"剑异小成","effect":"【剑】【异】攻击+3.0%，生命+3.0%","note":"","quality":"凡品"},{"name":"剑异双绝","effect":"【剑】【异】形态法宝攻击、防御、生命各+7.5%","note":"①","quality":"良品"},{"name":"剑异通神","effect":"【剑】【异】形态法宝攻击、防御、生命各+7.5%","note":"","quality":"优品"}]},{"name":"乐异 / 【乐】【异】攻击+3.0%，生命+3.0%","entries":[{"name":"乐异小成","effect":"【乐】【异】攻击+3.0%，生命+3.0%","note":"","quality":"凡品"},{"name":"乐异双绝","effect":"【乐】【异】形态法宝攻击、防御、生命各+7.5%","note":"①","quality":"良品"},{"name":"乐异通神","effect":"【乐】【异】形态法宝攻击、防御、生命各+7.5%","note":"","quality":"优品"}]},{"name":"剑御 / 【剑】【御】攻击+3.0%，防御+3.0%","entries":[{"name":"剑御小成","effect":"【剑】【御】攻击+3.0%，防御+3.0%","note":"","quality":"凡品"},{"name":"剑御双绝","effect":"【剑】【御】形态法宝攻击、防御、生命各+7.5%","note":"①","quality":"良品"},{"name":"剑御通神","effect":"【剑】【御】形态法宝攻击、防御、生命各+7.5%","note":"","quality":"优品"}]},{"name":"剑锤 / 【剑】【锤】攻击+3.0%，防御+3.0%","entries":[{"name":"剑锤小成","effect":"【剑】【锤】攻击+3.0%，防御+3.0%","note":"","quality":"凡品"},{"name":"剑锤双绝","effect":"【剑】【锤】形态法宝攻击、防御、生命各+7.5%","note":"①","quality":"良品"},{"name":"剑锤通神","effect":"【剑】【锤】形态法宝攻击、防御、生命各+7.5%","note":"","quality":"优品"}]},{"name":"御锤 / 【御】【锤】防御+3.0%，生命+3.0%","entries":[{"name":"御锤小成","effect":"【御】【锤】防御+3.0%，生命+3.0%","note":"","quality":"凡品"},{"name":"御锤双绝","effect":"【御】【锤】形态法宝攻击、防御、生命各+7.5%","note":"①","quality":"良品"},{"name":"御锤通神","effect":"【御】【锤】形态法宝攻击、防御、生命各+7.5%","note":"","quality":"优品"}]},{"name":"刀乐 / 【刀】【乐】攻击+3.0%，生命+3.0%","entries":[{"name":"刀乐小成","effect":"【刀】【乐】攻击+3.0%，生命+3.0%","note":"","quality":"凡品"},{"name":"刀乐双绝","effect":"【刀】【乐】形态法宝攻击、防御、生命各+7.5%","note":"①","quality":"良品"},{"name":"刀乐通神","effect":"【刀】【乐】形态法宝攻击、防御、生命各+7.5%","note":"","quality":"优品"}]},{"name":"刀异 / 【刀】【异】攻击+3.0%，生命+3.0%","entries":[{"name":"刀异小成","effect":"【刀】【异】攻击+3.0%，生命+3.0%","note":"","quality":"凡品"},{"name":"刀异双绝","effect":"【刀】【异】形态法宝攻击、防御、生命各+7.5%","note":"①","quality":"良品"},{"name":"刀异通神","effect":"【刀】【异】形态法宝攻击、防御、生命各+7.5%","note":"","quality":"优品"}]},{"name":"御幡 / 【御】【幡】攻击+3.0%，防御+3.0%","entries":[{"name":"御幡小成","effect":"【御】【幡】攻击+3.0%，防御+3.0%","note":"","quality":"凡品"},{"name":"御幡双绝","effect":"【御】【幡】形态法宝攻击、防御、生命各+7.5%","note":"①","quality":"良品"},{"name":"御幡通神","effect":"【御】【幡】形态法宝攻击、防御、生命各+7.5%","note":"","quality":"优品"}]},{"name":"锤幡 / 【锤】【幡】攻击+3.0%，防御+3.0%","entries":[{"name":"锤幡小成","effect":"【锤】【幡】攻击+3.0%，防御+3.0%","note":"","quality":"凡品"},{"name":"锤幡双绝","effect":"【锤】【幡】形态法宝攻击、防御、生命各+7.5%","note":"①","quality":"良品"},{"name":"锤幡通神","effect":"【锤】【幡】形态法宝攻击、防御、生命各+7.5%","note":"","quality":"优品"}]},{"name":"枪幡 / 【枪】【幡】攻击+3.0%，生命+3.0%","entries":[{"name":"枪幡小成","effect":"【枪】【幡】攻击+3.0%，生命+3.0%","note":"","quality":"凡品"},{"name":"枪幡双绝","effect":"【枪】【幡】形态法宝攻击、防御、生命各+7.5%","note":"①","quality":"良品"},{"name":"枪幡通神","effect":"【枪】【幡】形态法宝攻击、防御、生命各+7.5%","note":"","quality":"优品"}]},{"name":"枪乐 / 【枪】【乐】攻击+3.0%，生命+3.0%","entries":[{"name":"枪乐小成","effect":"【枪】【乐】攻击+3.0%，生命+3.0%","note":"","quality":"凡品"},{"name":"枪乐双绝","effect":"【枪】【乐】形态法宝攻击、防御、生命各+7.5%","note":"①","quality":"良品"},{"name":"枪乐通神","effect":"【枪】【乐】形态法宝攻击、防御、生命各+7.5%","note":"","quality":"优品"}]},{"name":"幡乐 / 【幡】【乐】攻击+3.0%，生命+3.0%","entries":[{"name":"幡乐小成","effect":"【幡】【乐】攻击+3.0%，生命+3.0%","note":"","quality":"凡品"},{"name":"幡乐双绝","effect":"【幡】【乐】形态法宝攻击、防御、生命各+7.5%","note":"①","quality":"良品"},{"name":"幡乐通神","effect":"【幡】【乐】形态法宝攻击、防御、生命各+7.5%","note":"","quality":"优品"}]},{"name":"刀幡 / 【刀】【幡】攻击+3.0%，生命+3.0%","entries":[{"name":"刀幡小成","effect":"【刀】【幡】攻击+3.0%，生命+3.0%","note":"","quality":"凡品"},{"name":"刀幡双绝","effect":"【刀】【幡】形态法宝攻击、防御、生命各+7.5%","note":"①","quality":"良品"},{"name":"刀幡通神","effect":"【刀】【幡】形态法宝攻击、防御、生命各+7.5%","note":"","quality":"优品"}]},{"name":"御异 / 【御】【异】防御+3.0%，生命+3.0%","entries":[{"name":"御异小成","effect":"【御】【异】防御+3.0%，生命+3.0%","note":"","quality":"凡品"},{"name":"御异双绝","effect":"【御】【异】形态法宝攻击、防御、生命各+7.5%","note":"①","quality":"良品"},{"name":"御异通神","effect":"【御】【异】形态法宝攻击、防御、生命各+7.5%","note":"","quality":"优品"}]},{"name":"锤异 / 【锤】【异】攻击+3.0%，防御+3.0%","entries":[{"name":"锤异小成","effect":"【锤】【异】攻击+3.0%，防御+3.0%","note":"","quality":"凡品"},{"name":"锤异双绝","effect":"【锤】【异】形态法宝攻击、防御、生命各+7.5%","note":"①","quality":"良品"},{"name":"锤异通神","effect":"【锤】【异】形态法宝攻击、防御、生命各+7.5%","note":"","quality":"优品"}]}]},{"id":"special","no":"04","title":"双武器 · 特色词条","count":24,"subtitle":"以下均为优品，分别对应两种法宝形态","groups":[{"name":"特色词条","entries":[{"name":"鸣剑饮刃","effect":"【刀】【剑】形态法宝穿甲+5%，汲取率+5%","note":"","quality":"优品"},{"name":"金戈剑胆","effect":"【剑】【枪】形态法宝穿甲+5%，暴击增伤+10%","note":"","quality":"优品"},{"name":"铩刃金枪","effect":"【刀】【枪】形态法宝汲取率+5%，暴击增伤+10%","note":"","quality":"优品"},{"name":"刃影毒香","effect":"【剑】【乐】形态法宝增伤+5%，毒增伤+5%","note":"","quality":"优品"},{"name":"青芒枯荣","effect":"【剑】【异】形态法宝增伤+5%，生命+10%","note":"","quality":"优品"},{"name":"森罗乐异","effect":"【乐】【异】形态法宝毒增伤+5%，生命+10%","note":"","quality":"优品"},{"name":"剑御潮生","effect":"【剑】【御】形态法宝增伤+5%，护盾效果+5%","note":"","quality":"优品"},{"name":"沧刃玄锤","effect":"【剑】【锤】形态法宝增伤+5%，防御+10%","note":"","quality":"优品"},{"name":"玄水御镇","effect":"【御】【锤】形态法宝护盾效果+5%，防御+10%","note":"","quality":"优品"},{"name":"烈刃琴心","effect":"【刀】【乐】形态法宝灼烧增伤+5%，增伤+5%","note":"","quality":"优品"},{"name":"焚锋疾异","effect":"【刀】【异】形态法宝灼烧增伤+5%，连击增伤+10%","note":"③","quality":"优品"},{"name":"炎律燎异","effect":"【乐】【异】形态法宝增伤+5%，连击增伤+10%","note":"","quality":"优品"},{"name":"磐石御锤","effect":"【御】【锤】形态法宝治疗效果+5%，防御+10%","note":"","quality":"优品"},{"name":"泰御灵幡","effect":"【御】【幡】形态法宝治疗效果、增伤各+5%","note":"","quality":"优品"},{"name":"锤幡定岳","effect":"【锤】【幡】形态法宝增伤+5%，防御+10%","note":"","quality":"优品"},{"name":"雷锋怒幡","effect":"【枪】【幡】形态法宝怒气回复效率+10%，增伤+5%","note":"","quality":"优品"},{"name":"霆律惊戈","effect":"【枪】【乐】形态法宝怒气回复效率+10%，汲取率+5%","note":"","quality":"优品"},{"name":"雷锋神幡","effect":"【幡】【乐】形态法宝增伤、汲取率各+5%","note":"","quality":"优品"},{"name":"裂魂刀枪","effect":"【刀】【枪】形态法宝破盾强化+10%，穿甲+5%","note":"","quality":"优品"},{"name":"邪刃魔幡","effect":"【刀】【幡】形态法宝破盾强化+10%，增伤+5%","note":"","quality":"优品"},{"name":"冥枪诡旗","effect":"【枪】【幡】形态法宝穿甲+5%，增伤+5%","note":"","quality":"优品"},{"name":"百御千锤","effect":"【御】【锤】形态法宝护盾效果、增伤各+5%","note":"","quality":"优品"},{"name":"金刚御异","effect":"【御】【异】形态法宝护盾效果、治疗效果各+5%","note":"","quality":"优品"},{"name":"无相撼异","effect":"【幡】【异】形态法宝增伤、治疗效果各+5%","note":"","quality":"优品"}]}]}]};
+const QUALS = ['凡品','良品','优品'];
+const QCLS = {'凡品':'f','良品':'l','优品':'y'};
+const QCOL = {'凡品':'var(--fan)','良品':'var(--liang)','优品':'var(--you)'};
+const TAB = [['金','元素'],['剑','单武'],['双','双武'],['特','特色']];
+const GAP_ICON = {};
+
+// 数据说明：① ② ③ 对应 meta.notes 里以相同序号开头的条目
+const NOTE = {};
+D.meta.notes.forEach(n=>{const m=n.match(/^([①②③])\s*(.*)$/);if(m)NOTE[m[1]]=m[2];});
+
+// 分组短名：双武器分组名形如「剑刀 / 【剑】【刀】攻击+3.0%，生命+3.0%」，取斜杠前的部分
+const gShort = n => n.split('/')[0].trim();
+const gIcon  = n => gShort(n).replace('系','').replace('形态','')[0];
+
+const state = {tab:0, q:'', quality:'', group:''};
+const $ = id => document.getElementById(id);
+const esc = s => s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+// 将文本按「搜索命中 / 数值 / 【形态】」标注后渲染
+function render(text, terms){
+  const n=text.length, f=new Array(n).fill(0); // bit1 命中 bit2 数值 bit4 形态标签
+  let m; const reNum=/[+＋-][0-9.]+%/g, reTag=/【[^】]+】/g;
+  while((m=reNum.exec(text))) for(let i=m.index;i<m.index+m[0].length;i++) f[i]|=2;
+  while((m=reTag.exec(text))) for(let i=m.index;i<m.index+m[0].length;i++) f[i]|=4;
+  const low=text.toLowerCase();
+  terms.forEach(t=>{ if(!t) return; let p=0; while((p=low.indexOf(t,p))>-1){ for(let i=p;i<p+t.length;i++) f[i]|=1; p+=t.length; } });
+  let out='',i=0;
+  while(i<n){ let j=i; while(j<n&&f[j]===f[i]) j++;
+    let s=esc(text.slice(i,j));
+    if(f[i]&1) s='<mark>'+s+'</mark>';
+    if(f[i]&2) s='<b>'+s+'</b>'; else if(f[i]&4) s='<i>'+s+'</i>';
+    out+=s; i=j; }
+  return out;
+}
+
+function terms(){ return state.q.trim().toLowerCase().split(/\s+/).filter(Boolean); }
+function matchEntry(e,ts){ if(state.quality && e.quality!==state.quality) return false;
+  if(!ts.length) return true; const hay=(e.name+' '+e.effect).toLowerCase(); return ts.every(t=>hay.includes(t)); }
+
+function build(){
+  const ts=terms(), searching=ts.length>0;
+  // 搜索时跨全部分类；否则只看当前 tab
+  const secs = D.sections.map((s,si)=>({s,si})).filter(x=>searching||x.si===state.tab);
+  let html='', total=0;
+  secs.forEach(({s,si})=>{
+    let body='', secCount=0;
+    s.groups.forEach(g=>{
+      if(!searching && state.group && gShort(g.name)!==state.group) return;
+      const es=g.entries.filter(e=>matchEntry(e,ts));
+      if(!es.length) return;
+      secCount+=es.length;
+      const one = (s.id==='dual'||s.id==='special') ? ' one':'';
+      body+=`<div class="group" id="g-${si}-${esc(gShort(g.name))}"><div class="g-head"><span class="g-icon">${esc(gIcon(g.name))}</span><b>${esc(gShort(g.name))}</b><span class="n">${es.length} 条</span></div><div class="cards${one}">`;
+      es.forEach(e=>{
+        // 效果按「，」拆成一行一个子句，避免数值被硬切断
+        const nm = render(e.name,ts), fx = e.effect.split('，').map(p=>`<span class="cl">${render(p,ts)}</span>`).join('');
+        const note = e.note ? `<span class="badge" role="button" aria-label="数据说明${e.note}" data-note="${e.note}">${e.note}</span>`:'';
+        body+=`<div class="card${e.quality==='优品'?' y':''}" style="--qc:${QCOL[e.quality]}">
+          <div class="q">${e.quality}</div>
+          <div class="nm">${nm}${note}</div>
+          <div class="fx">${fx}</div>
+          ${e.note?`<div class="cnote"><b>${e.note}</b> ${esc(NOTE[e.note]||'')}</div>`:''}
+        </div>`;
+      });
+      body+='</div></div>';
+    });
+    if(!secCount) return;
+    total+=secCount;
+    html+=`<section class="sec"><div class="sec-head"><span class="no">${s.no}</span><h2>${s.title}</h2><span class="n">${secCount} 条</span></div>${searching||state.group||state.quality?'':`<div class="sec-sub">${s.subtitle}</div>`}${body}</section>`;
+  });
+  $('main').innerHTML = html || `<div class="empty"><b>没有找到相关词条</b>换个关键词，或把品阶筛选切回「全部」</div>`;
+  $('tip').innerHTML = (searching||state.quality||state.group) ? `共 <b>${total}</b> 条${searching?'（已跨全部分类搜索）':''}` : '';
+}
+
+function buildChips(){
+  const cnt = {}; // 当前搜索词下各品阶数量（品阶筛选自身不计入）
+  const ts=terms(), pool=[];
+  D.sections.forEach((s,si)=>s.groups.forEach(g=>g.entries.forEach(e=>{ if(ts.length? true : si===state.tab){ const hay=(e.name+' '+e.effect).toLowerCase(); if(!ts.length||ts.every(t=>hay.includes(t))) pool.push(e);} })));
+  const all=pool.length; QUALS.forEach(q=>cnt[q]=pool.filter(e=>e.quality===q).length);
+  $('qchips').innerHTML =
+    `<button class="chip ${state.quality===''?'on':''}" data-q="">全部<span class="c">${all}</span></button>`+
+    QUALS.map(q=>`<button class="chip q-${QCLS[q]} ${state.quality===q?'on':''}" data-q="${q}">${q}<span class="c">${cnt[q]}</span></button>`).join('');
+  const searching=ts.length>0, gc=$('gchips');
+  if(searching){ gc.style.display='none'; return; }
+  gc.style.display='';
+  const gs=D.sections[state.tab].groups.map(g=>gShort(g.name));
+  gc.innerHTML = `<button class="chip ${state.group===''?'on':''}" data-g="">全部</button>`+
+    gs.map(n=>`<button class="chip ${state.group===n?'on':''}" data-g="${esc(n)}">${esc(n)}</button>`).join('');
+}
+
+function buildTabbar(){
+  $('tabbar').innerHTML = D.sections.map((s,i)=>`<button class="${i===state.tab&&!terms().length?'on':''}" data-t="${i}"><i>${TAB[i][0]}</i>${TAB[i][1]}</button>`).join('');
+}
+
+function refresh(){ buildChips(); build(); buildTabbar(); }
+
+// 头部
+$('ver').textContent = `资源版本 ${D.meta.version} · ${D.meta.total} 条完整收录`;
+$('stats').innerHTML =
+  `<div class="stat t"><b>${D.meta.total}</b><span>全词条</span></div>`+
+  QUALS.map(q=>`<div class="stat ${QCLS[q]}"><b>${D.meta.counts[q]}</b><span>${q}</span></div>`).join('');
+$('notes').innerHTML = '<h3>说明</h3>'+D.meta.notes.map(n=>`<p>${esc(n)}</p>`).join('');
+
+// 事件
+let tmr;
+$('q').addEventListener('input',e=>{ clearTimeout(tmr); tmr=setTimeout(()=>{ state.q=e.target.value; state.group=''; $('searchBox').classList.toggle('has',!!state.q); refresh(); },120); });
+$('clr').onclick=()=>{ $('q').value=''; state.q=''; $('searchBox').classList.remove('has'); refresh(); $('q').focus(); };
+$('qchips').onclick=e=>{ const b=e.target.closest('.chip'); if(!b) return; state.quality=b.dataset.q; refresh(); };
+$('gchips').onclick=e=>{ const b=e.target.closest('.chip'); if(!b) return; state.group=b.dataset.g; refresh(); };
+$('tabbar').onclick=e=>{ const b=e.target.closest('button'); if(!b) return;
+  state.tab=+b.dataset.t; state.group=''; state.q=''; $('q').value=''; $('searchBox').classList.remove('has');
+  refresh(); window.scrollTo({top:0,behavior:'instant'in window?'instant':'auto'}); };
+$('main').onclick=e=>{ const b=e.target.closest('.badge'); if(b) b.closest('.card').classList.toggle('open'); };
+const tt=$('totop'); addEventListener('scroll',()=>tt.classList.toggle('show',scrollY>600),{passive:true});
+tt.onclick=()=>scrollTo({top:0,behavior:'smooth'});
+
+refresh();
+</script>
+</body>
+</html>
