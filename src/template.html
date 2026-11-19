@@ -7,7 +7,7 @@
 <meta name="color-scheme" content="dark">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>后天天赋 · 全词条｜我要当老祖</title>
+<title>后天特性 · 全词条｜我要当老祖</title>
 <style>
 :root{
   --bg:#10141F; --panel:#1A2030; --panel-2:#202739; --line:rgba(217,180,91,.22);
@@ -101,7 +101,7 @@ button{cursor:pointer}
 .group.open>.g-body{display:block}
 
 /* 列表行 */
-.row{position:relative;display:grid;grid-template-columns:24px 4.6em minmax(0,1fr) 36px;column-gap:8px;align-items:center;
+.row{position:relative;display:grid;grid-template-columns:24px 5.4em minmax(0,1fr) 36px;column-gap:8px;align-items:center;
   padding:7px 4px 7px 14px;border-top:1px solid rgba(255,255,255,.06)}
 .row::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--qc)}
 .row.y::before{background:linear-gradient(180deg,#F0D28A,#C99B3F)}
@@ -162,7 +162,7 @@ mark{background:rgba(217,180,91,.28);color:#fff;border-radius:3px;padding:0 1px}
 <div class="page">
   <header class="hero">
     <div class="kicker">我要当老祖 · 先遣服图鉴</div>
-    <h1>后天天赋 · 全词条</h1>
+    <h1 id="title">后天特性 · 全词条</h1>
     <div class="ver" id="ver"></div>
     <div class="stat-bar" id="stats"></div>
   </header>
@@ -216,10 +216,11 @@ const store = {
   get(k,d){ try{ const v=localStorage.getItem(k); return v==null?d:JSON.parse(v); }catch(e){ return d; } },
   set(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
 };
+const ALL_NAMES = new Set(D.sections.flatMap(s=>s.groups.flatMap(g=>g.entries.map(e=>e.name))));
 const state = {
   tab:0, q:'', tag:'', quality:'', favOnly:false,
   view: store.get('ht-view','list'),
-  fav: new Set(store.get('ht-fav',[])),
+  fav: new Set(store.get('ht-fav',[]).filter(n=>ALL_NAMES.has(n))),
   open: new Set(['0|'+gShort(D.sections[0].groups[0].name)]),
   panel:false
 };
@@ -321,7 +322,8 @@ const refresh = () => { buildControls(); build(); buildGChips(); updateSH(); };
 const saveFav = () => store.set('ht-fav',[...state.fav]);
 
 // 头部与脚注
-$('ver').textContent = `资源版本 ${D.meta.version} · ${D.meta.total} 条完整收录`;
+$('title').textContent = D.meta.title;
+$('ver').textContent = `资源版本 ${D.meta.version} · ${D.meta.total} 条完整收录`+(D.meta.updated_names?` · 本版更新 ${D.meta.updated_names} 个名称`:'');
 $('stats').innerHTML =
   `<div class="stat t"><b>${D.meta.total}</b><span>全部</span></div>`+
   QUALS.map(q=>`<div class="stat ${QCLS[q]}"><b>${D.meta.counts[q]}</b><span>${q[0]}</span></div>`).join('');
